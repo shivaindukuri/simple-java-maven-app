@@ -10,11 +10,12 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh "mvn clean package"
+                sh "mvn clean package surefire-report:report-only"
             }
             post {
                 always {
                     sh "ls -latr"
+                    sh "ls -latr target/"
                 }
                 failure {
                     //mail bcc: '', body: '', cc: 'manager@mycompanycom', from: '', replyTo: '', subject: 'Jenkins Job has failed - $JOB_NAME', to: 'support@mycompany.com'
