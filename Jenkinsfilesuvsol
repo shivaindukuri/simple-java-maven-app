@@ -1,0 +1,29 @@
+pipeline {
+    agent {
+        label 'maven'
+    }
+
+    tools {
+        maven 'maven-latest'
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                sh "mvn clean package"
+            }
+        }
+        post {
+            always {
+                sh "ls -latr"
+            }
+            failure {
+                //mail bcc: '', body: '', cc: 'manager@mycompanycom', from: '', replyTo: '', subject: 'Jenkins Job has failed - $JOB_NAME', to: 'support@mycompany.com'
+                echo "I am in failure"
+            }
+            success {
+                echo "I am success"
+            }
+        }
+    }
+}
