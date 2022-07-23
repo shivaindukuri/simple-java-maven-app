@@ -22,7 +22,7 @@ pipeline {
                     echo "I am in failure"
                 }
                 success {
-                    echo "I am success"
+                    publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'target/site', reportFiles: 'surefire-report.html', reportName: 'HTML Report', reportTitles: ''])
                 }
             }
         }
