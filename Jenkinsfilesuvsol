@@ -2,6 +2,10 @@ pipeline {
     agent {
         label 'maven'
     }
+    environment {
+        DEV_USER = "ubuntu"
+        DEV_HOST = "172.31.86.115"
+    }
     options {
         buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '5', numToKeepStr: '5')
     }
@@ -26,6 +30,24 @@ pipeline {
                 }
                 success {
                     publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'target/site', reportFiles: 'surefire-report.html', reportName: 'HTML Report', reportTitles: ''])
+                }
+            }
+        }
+        stage('Sonar') {
+            steps {
+                echo "Executing mvn sonar:sonar"
+            }
+        }
+        stage('Publish') {
+            steps {
+                echo "jfrog rt mvn "
+                echo "mvn clean deploy -DSkipTests=True"
+            }
+        }
+        stage('Deploy To Dev') {
+            steps {
+                sshagent(['maven-project-dev-ssh-key']) {
+                    sh "scp -o StrictHostKeyChecking=no target/my-app-1-RELEASE.jar $DEV_USER@$DEV_HOST:~/"
                 }
             }
         }
