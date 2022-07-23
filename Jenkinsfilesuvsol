@@ -53,16 +53,16 @@ pipeline {
                 }
             }
         }
-        input message: 'Deploy To UAT?', ok: 'Yes'
         stage('Deploy To Uat') {
+            input message: 'Deploy To UAT?', ok: 'Yes'
             steps {
                 sshagent(['maven-project-dev-ssh-key']) {
                     sh "scp -o StrictHostKeyChecking=no target/my-app-1-RELEASE.jar $DEV_USER@$DEV_HOST:~/uat/"
                 }
             }
         }
-        input message: 'Deploy To PROD?', ok: 'Yes'
         stage('Deploy To Prod') {
+            input message: 'Deploy To PROD?', ok: 'Yes'
             steps {
                 sshagent(['maven-project-dev-ssh-key']) {
                     sh "scp -o StrictHostKeyChecking=no target/my-app-1-RELEASE.jar $DEV_USER@$DEV_HOST:~/prod/"
