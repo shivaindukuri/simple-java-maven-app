@@ -5,6 +5,8 @@ pipeline {
     environment {
         DEV_USER = "ubuntu"
         DEV_HOST = "172.31.86.115"
+        UAT_USER = "ubuntu"
+        UAT_HOST = "172.31.86.115"
     }
     options {
         buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '5', numToKeepStr: '5')
@@ -47,7 +49,23 @@ pipeline {
         stage('Deploy To Dev') {
             steps {
                 sshagent(['maven-project-dev-ssh-key']) {
-                    sh "scp -o StrictHostKeyChecking=no target/my-app-1-RELEASE.jar $DEV_USER@$DEV_HOST:~/"
+                    sh "scp -o StrictHostKeyChecking=no target/my-app-1-RELEASE.jar $DEV_USER@$DEV_HOST:~/dev/"
+                }
+            }
+        }
+        input message: 'Deploy To UAT?', ok: 'Yes'
+        stage('Deploy To Uat') {
+            steps {
+                sshagent(['maven-project-dev-ssh-key']) {
+                    sh "scp -o StrictHostKeyChecking=no target/my-app-1-RELEASE.jar $DEV_USER@$DEV_HOST:~/uat/"
+                }
+            }
+        }
+        input message: 'Deploy To PROD?', ok: 'Yes'
+        stage('Deploy To Prod') {
+            steps {
+                sshagent(['maven-project-dev-ssh-key']) {
+                    sh "scp -o StrictHostKeyChecking=no target/my-app-1-RELEASE.jar $DEV_USER@$DEV_HOST:~/prod/"
                 }
             }
         }
