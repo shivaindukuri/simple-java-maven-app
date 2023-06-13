@@ -1,0 +1,18 @@
+pipeline {
+  agent {
+   label "jenkins-slave1"
+   }
+  
+  stages {
+    stage{'checkout'}{
+      steps{
+        checkout scm
+      }
+    }
+    stage{'Build'}{
+      steps{
+        sh "mvn clean  installpol0"
+      }
+    }
+  }
+}
