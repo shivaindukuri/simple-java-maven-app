@@ -16,7 +16,7 @@ pipeline {
     stage('Deploy'){
         steps{
             sshagent(['maven-key']){
-                sh "scp -o StrictHostKeyChecking=no /target/my-app-1-RELEASE.jar shiva@172.31.85.15:/home/shiva"
+                sh "scp -o StrictHostKeyChecking=no ./target/my-app-1-RELEASE.jar shiva@172.31.85.15:/home/shiva"
             }
         }
     }
