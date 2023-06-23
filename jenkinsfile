@@ -13,5 +13,13 @@ pipeline {
         sh "mvn clean  install"
       }
     }
+    stage('Depoly')"{
+      steps{
+        sshagent(['maven-key']) {
+          sh "scp -0 StrictHostKeyChecking=no /target/my-app-1-RELEASE.jar shiva@172.31.85.15:/home/shiva"
+        }
+      }
+    }
   }
 }
+
