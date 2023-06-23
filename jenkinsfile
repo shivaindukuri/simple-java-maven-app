@@ -15,7 +15,7 @@ pipeline {
     stage('Deploy"){
       steps{
         sshagent(['maven-key']) {
-          sh ssh -o StrictHostKeyChecking=no target/my-app-1.0-SNAPSHOT.jar shiva@172.31.85.15:/home/shiva"
+          sh "ssh -o StrictHostKeyChecking=no target/my-app-1.0-SNAPSHOT.jar shiva@172.31.85.15:/home/shiva"
           }
     }
   }
