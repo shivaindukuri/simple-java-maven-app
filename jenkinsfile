@@ -12,7 +12,7 @@ pipeline {
       steps{
         sh "mvn clean  install"
       }
-    stage('Deploy"){
+    stage('Deploy'){
       steps{
         sshagent(['maven-key']) {
           sh "ssh -o StrictHostKeyChecking=no target/my-app-1-RELEASE.jar shiva@172.31.85.15:/home/shiva"
