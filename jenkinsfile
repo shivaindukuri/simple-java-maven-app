@@ -28,7 +28,7 @@ pipeline {
   }
   post {
     always {
-        deleteDir{}
+        deleteDir()
     }
     failure {
         echo "mail to respective team"
